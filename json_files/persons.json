@@ -1,0 +1,23 @@
+{
+     "firstName": "Stefan",
+     "lastName": "Kowalski",
+     "age": 25,
+     "address":
+     {
+         "streetAddress": "Zakopianska 9",
+         "city": "Kraków",
+         "state": "Malopolska",
+         "postalCode": "30-132"
+     },
+     "phoneNumber":
+     [
+         {
+           "type": "home",
+           "number": "12 33 44 55"
+         },
+         {
+           "type": "cellphone",
+           "number": "600 500 300"
+         }
+     ]
+ }
