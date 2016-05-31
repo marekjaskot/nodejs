@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Panel wprowadzania wyników</title>
+    <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" type="text/css" rel="stylesheet">
+    <script>
+        $(document).ready(function () {
+            $('#send-score').on('click', function (e) {
+                e.preventDefault();
+                var newScore = $('form').serializeArray().reduce(function (obj, item) {
+                    obj[item.name] = item.value;
+                    return obj;
+                }, {});
+                console.log(newScore);
+
+                var posting = $.post(
+                        'http://localhost:3000/score',
+                        JSON.stringify(newScore),
+                        function (data) {
+                            $('.score-log').prepend('<div class="row"><pre>'+JSON.stringify(data)+'</pre></div>')
+                        }
+                )
+            })
+
+            $('#increase-team-a').on('click',function(e){
+                e.preventDefault();
+                var scoreTeamA = parseInt($('input[name="teamA"]').val())
+                $('input[name="teamA"]').val(scoreTeamA+1)
+
+            })
+
+            $('#increase-team-b').on('click',function(e){
+                e.preventDefault();
+                var scoreTeamA = parseInt($('input[name="teamB"]').val())
+                $('input[name="teamB"]').val(scoreTeamA+1)
+
+            })
+
+        });
+    </script>
+</head>
+<body>
+
+</body>
+<div class="container-fluid">
+    <div class="jumbotron">
+        <h2 class="display-3">Formularz dodawania wyników!</h2>
+
+        <div class="row">
+            <div class="col-md-6">
+                <form id="form-score" class="form-horizontal">
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label" for="set-number">Set</label>
+                        <div class="col-sm-4">
+                            <select id="set-number" name="setId" class="form-control">
+                                <option>1</option>
+                                <option>2</option>
+                                <option>3</option>
+                                <option>4</option>
+                                <option>5</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label" for="increase-team-a">teamA</label>
+                        <div class="col-sm-4">
+                            <input type="text" class="form-control" name="teamA" id="team-a" placeholder="0" value="0">
+                        </div>
+                        <div class="col-sm-4">
+                            <button id="increase-team-a" class="btn btn-primary">+</button>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">teamB</label>
+                        <div class="col-sm-4">
+                            <input type="text" class="form-control" name="teamB" id="team-b" placeholder="0" value="0">
+                        </div>
+                        <div class="col-sm-4">
+                            <button id="increase-team-b" class="btn btn-primary">+</button>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">Komentarz</label>
+                        <div class="col-sm-4">
+                            <textarea name="desc" class="form-control" rows="3"></textarea>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-offset-2 col-sm-4">
+                            <button id="send-score" type="submit" class="btn btn-default">Wyślij</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <div class="col-md-6">
+                <div class="score-log row">
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+</html>
