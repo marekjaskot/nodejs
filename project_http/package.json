@@ -1,0 +1,14 @@
+{
+  "name": "project-http",
+  "version": "1.0.0",
+  "description": "przykładowy skrypt serwera http",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "http"
+  ],
+  "author": "Me",
+  "license": "ISC"
+}
