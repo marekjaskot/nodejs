@@ -11,18 +11,32 @@ server.use(restify.bodyParser());
 server.use(restify.CORS({ credentials: true,}));
 
 server.get('/score', function (req, res, next) {
-    res.send(score);
+    score.find({},function(err, data){
+        if(err) {
+            console.log(err);
+            return next(err);
+        }
+        res.send(data);
+        return next();
+    })
     next();
 })
 
 server.get('/score/set/:setId', function (req, res, next) {
-    let setId = req.params.setId
-    res.send(_.where(score, {setId: parseInt(setId)}));
-    next();
+    let setId = parseInt(req.params.setId)
+    if(_.isNumber(setId) && setId > 0){
+        score.find({ "setId": setId },function(err, data) {
+            res.send(data);
+            return next();
+        })
+    } else {
+        next(new Error('expect setid to be number'))
+        return;
+    }
+    next()
 })
 
 server.post('/score', function (req, res, next) {
-    console.log(req.body)
     //let scoreParams = JSON.parse(req.body)
     let scoreParams = req.body;
     let scoreDate = new Date();
@@ -30,14 +44,16 @@ server.post('/score', function (req, res, next) {
     let newScore = {
         "setId": parseInt(scoreParams.setId),
         "teamA": parseInt(scoreParams.teamA),
-        "teamB": parseInt(scoreParams.teamB),
+        "teamB": scoreParams.teamB,
         "time": scoreDate.toLocaleTimeString(),
         "desc": scoreParams.desc
     };
-    console.log(newScore);
 
     score.create(newScore,function(err,data){
-        if(err)  return next(err);
+        if(err) {
+            console.log(err);
+            return next(err);
+        }
         res.send(data);
         return next();
     });

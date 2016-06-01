@@ -8,6 +8,7 @@ var db = mongoose.connection;
 db.on('error',function(err,data){
     console.log(err)
 })
+
 db.once('open',function(data){
     console.log('Polaczona z baza danych')
 })
@@ -34,6 +35,7 @@ var scoreSchema = mongoose.Schema({
 })
 
 
-module.exports = function (){
-    return mongoose.model('score', scoreSchema)
-}
+//scoreSchema.statics
+
+
+module.exports = mongoose.model('score', scoreSchema)
