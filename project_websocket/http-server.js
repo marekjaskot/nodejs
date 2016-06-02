@@ -37,8 +37,7 @@ server.get('/score/set/:setId', function (req, res, next) {
 })
 
 server.post('/score', function (req, res, next) {
-    //let scoreParams = JSON.parse(req.body)
-    let scoreParams = req.body;
+    let scoreParams = JSON.parse(req.body)
     let scoreDate = new Date();
 
     let newScore = {
@@ -60,7 +59,7 @@ server.post('/score', function (req, res, next) {
 })
 
 
-server.listen(3000, function () {
+module.exports = server.listen(3000, function () {
     console.log('serwer nasłuchuje port:3000')
 })
 

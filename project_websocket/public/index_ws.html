@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Wyniki meczu na żywo Polska - Japonia</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" type="text/css" rel="stylesheet">
+
+    <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            //var socket = new WebSocket("ws://localhost:3001");
+            var socket = new WebSocket("ws://localhost:3001");
+            socket.onopen = function () {
+                console.log('polaczenie z serwerem');
+            }
+            socket.onmessage = function (msg) {
+                var actionData = JSON.parse(msg.data);
+
+                if (actionData.action === 'new_score') {
+                    console.log(actionData.msg)
+                    var element = actionData.msg
+                    $('#set-' + element.setId + ' .teamA').text(element.teamA)
+                    $('#set-' + element.setId + ' .teamB').text(element.teamB)
+                    $('#score-desc').prepend('<div><b>' + element.teamA + ':' + element.teamB + '</b><br/><i>' + element.time + '</i> - ' + element.desc + '</div>')
+                }
+                else if (actionData.action === 'connected') {
+                    actionData.msg.forEach(function (element, index, array) {
+                        $('#set-' + element.setId + ' .teamA').text(element.teamA)
+                        $('#set-' + element.setId + ' .teamB').text(element.teamB)
+                        $('#score-desc').prepend('<div><b>' + element.teamA + ':' + element.teamB + '</b><br/><i>' + element.time + '</i> - ' + element.desc + '</div>')
+                    })
+                }
+
+            }
+
+            /*$.get('http://localhost:3000/score', function (data) {
+             console.log(data);
+             data.forEach(function (element, index, array) {
+             $('#set-' + element.setId + ' .teamA').text(element.teamA)
+             $('#set-' + element.setId + ' .teamB').text(element.teamB)
+             $('#score-desc').prepend('<div><b>'+element.teamA+':'+element.teamB+'</b><br/><i>' + element.time + '</i> - ' + element.desc + '</div>')
+             })
+             }
+             )*/
+
+        })
+    </script>
+    <style>
+        .set-style {
+            background-color: #999;
+            color: #fff;
+            font-weight: bold;
+            font-size: 18px;
+            text-align: center;
+            margin: 5px 0;
+            border: 1px solid #000;
+        }
+
+    </style>
+</head>
+<body>
+
+
+<div class="container-fluid">
+    <div class="row">
+        <div id="set-1" class="col-md-2">
+            <div class="set-style">
+                <span class="teamA">0</span>:<span class="teamB">0</span>
+            </div>
+        </div>
+        <div id="set-2" class="col-md-2">
+            <div class="set-style">
+                <span class="teamA">0</span>:<span class="teamB">0</span>
+            </div>
+        </div>
+        <div id="set-3" class="col-md-2">
+            <div class="set-style">
+                <span class="teamA">0</span>:<span class="teamB">0</span>
+            </div>
+        </div>
+        <div id="set-4" class="col-md-2">
+
+            <div class="set-style">
+                <span class="teamA">0</span>:<span class="teamB">0</span>
+            </div>
+        </div>
+        <div id="set-5" class="col-md-2">
+            <div class="set-style">
+                <span class="teamA">0</span>:<span class="teamB">0</span>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div id="score-desc" class="col-md-12"></div>
+    </div>
+
+</div>
+</body>
+</html>
