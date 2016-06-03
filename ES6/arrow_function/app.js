@@ -1,21 +1,42 @@
 /**
  * Created by Marek Jaskot <m.jaskot@kei.pl> on 02.06.16.
  */
-var fs = require('fs');
 
-function persons(){
-    let persons;
-    let self = this;
+/*
+
+ () => { … } // bez argumentu
+
+ x => { … } // z jednym argumentem
+
+ (x, y) => { … } // z kilkoma argumentami
+
+ x => { // blok instrukcji
+ var y = 2
+ return x * y
+ }
+
+ x => x * x // blok z jedną instrukcja
+
+ */
 
 
-    fs.readFile('persons.json', function (err, data) {
-        if (err) throw err;
-        this.persons = JSON.parse(data)
-        //self.persons =
-        console.log('Dane przeczytane!!',this.persons);
-    })
-}
+var arr = [1, 2, 3]
 
+arr.forEach(function (element) {
+    return console.log(element)
+})
 
-persons();
+arr.forEach((element) => {
+    return console.log(element)
+})
+
+arr.forEach(element => {
+    return console.log(element)
+})
+
+arr.forEach(element => {
+    console.log(element)
+})
+
+arr.forEach(element => console.log(element))
 
